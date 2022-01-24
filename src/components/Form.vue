@@ -1,23 +1,35 @@
 <template>
-  <div>
-    <h1>Contact Us</h1>
-    <form @submit.prevent="submitForm">
-      <label for="username">Name</label>
-      <input type="text" id="username" v-model.trim="userName" />
-      <label for="email">Email</label>
-      <input type="email" id="email" v-model.trim="email" />
-      <label for="birthdate">Birthday</label>
-      <input type="date" id="birthdate" v-model="birthDate" />
-      <input
-        type="checkbox"
-        id="contact"
-        value="contact"
-        v-model="agreeToContact"
-      />
-      <label for="contact">I agree to be contacted via email.</label>
-      <button @click="clearInputs" class="clearBtn">Clear</button>
-      <button :disabled="!formIsValid" class="submitBtn">Submit</button>
-    </form>
+  <div class="form">
+    <div class="card">
+      <h1>Contact Us</h1>
+      <form @submit.prevent="submitForm">
+        <div class="form-control">
+          <label for="username">Name</label>
+          <input type="text" id="username" v-model.trim="userName" />
+        </div>
+        <div class="form-control">
+          <label for="email">Email</label>
+          <input type="email" id="email" v-model.trim="email" />
+        </div>
+        <div class="form-control">
+          <label for="birthdate">Birthday</label>
+          <input type="date" id="birthdate" v-model="birthDate" />
+        </div>
+        <div class="form-control-checkbox">
+          <input
+            type="checkbox"
+            id="contact"
+            value="contact"
+            v-model="agreeToContact"
+          />
+          <label for="contact">I agree to be contacted via email.</label>
+        </div>
+        <div class="buttons">
+          <button @click="clearInputs" class="clearBtn">Clear</button>
+          <button :disabled="!formIsValid" class="submitBtn">Submit</button>
+        </div>
+      </form>
+    </div>
   </div>
 </template>
 
@@ -83,7 +95,7 @@ export default {
         if (response.ok) {
           this.clearInputs();
           toast.success("Form submitted", {
-            timeout: 2000,
+            timeout: 3000,
           });
           return;
         }
@@ -101,18 +113,70 @@ export default {
 </script>
 
 <style scoped>
-h3 {
-  margin: 40px 0 0;
+.card {
+  border: 1px solid;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  padding: 50px 100px;
 }
-ul {
-  list-style-type: none;
-  padding: 0;
+
+.form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
 }
-li {
-  display: inline-block;
-  margin: 0 10px;
+
+.form-control {
+  margin: 40px 0px;
+  display: flex;
+  width: 400px;
+  flex-direction: column;
 }
-a {
-  color: #42b983;
+
+.form-control-checkbox {
+  display: flex;
+  justify-content: flex-start;
+  margin: 40px 0px;
+}
+
+.form-control-checkbox label {
+  margin-left: 5px;
+}
+
+.buttons {
+  display: flex;
+  justify-content: flex-end;
+  height: 35px;
+}
+
+.clearBtn {
+  margin-right: 10px;
+  width: 100px;
+  border-radius: 10px;
+  border: 1px solid;
+  background: transparent;
+  cursor: pointer;
+}
+
+.submitBtn {
+  width: 100px;
+  border-radius: 10px;
+  border: 1px solid;
+  background: transparent;
+  cursor: pointer;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="date"] {
+  height: 25px;
+  padding: 0px 3px;
+}
+
+label {
+  display: flex;
+  font-weight: bold;
+  margin-bottom: 5px;
 }
 </style>
