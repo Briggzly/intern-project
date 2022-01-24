@@ -22,6 +22,8 @@
 </template>
 
 <script>
+import { useToast } from "vue-toastification";
+
 export default {
   data() {
     return {
@@ -59,8 +61,38 @@ export default {
 
       this.agreeToContact = false;
     },
-    submitForm() {
-      if (this.formIsValid) return console.log("valid");
+    async submitForm() {
+      const toast = useToast();
+
+      if (this.formIsValid) {
+        const response = await fetch(
+          "https://my-json-server.typicode.com/JustUtahCoders/interview-users-api/users",
+          {
+            method: "POST",
+            body: JSON.stringify({
+              name: this.userName,
+              email: this.email,
+              birthDate: this.birthDate,
+              emailConsent: this.agreeToContact,
+            }),
+          }
+        );
+
+        const responseData = await response.json();
+
+        if (response.ok) {
+          this.clearInputs();
+          toast.success("Form submitted", {
+            timeout: 2000,
+          });
+          return;
+        }
+
+        if (!response.ok) {
+          const error = new Error(responseData.message || "Failed");
+          throw error;
+        }
+      }
 
       return console.log("not valid");
     },
