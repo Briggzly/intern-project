@@ -26,7 +26,9 @@
         </div>
         <div class="buttons">
           <button @click="clearInputs" class="clearBtn">Clear</button>
-          <button :disabled="!formIsValid" class="submitBtn">Submit</button>
+          <button :disabled="!formIsValid" class="submitBtn" type="submit">
+            Submit
+          </button>
         </div>
       </form>
     </div>
@@ -56,6 +58,10 @@ export default {
     },
     validBirthdate() {
       if (!this.birthDate) return true;
+
+      if (isNaN(new Date(this.birthDate).getTime())) {
+        return false;
+      }
 
       return this.birthDate && typeof this.birthDate !== "undefined";
     },
@@ -90,8 +96,6 @@ export default {
           }
         );
 
-        const responseData = await response.json();
-
         if (response.ok) {
           this.clearInputs();
           toast.success("Form submitted", {
@@ -99,6 +103,8 @@ export default {
           });
           return;
         }
+
+        const responseData = await response.json();
 
         if (!response.ok) {
           toast.error("Failed to submit", {
