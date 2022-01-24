@@ -101,12 +101,15 @@ export default {
         }
 
         if (!response.ok) {
+          toast.error("Failed to submit", {
+            timeout: 3000,
+          });
           const error = new Error(responseData.message || "Failed");
           throw error;
         }
       }
 
-      return console.log("not valid");
+      return;
     },
   },
 };
